@@ -18,4 +18,4 @@
 
 **Ссылка на GitHub Pages**
 
-<a href="#">soon..</a>
+<a href="https://sazonov-dev.github.io/mesto-project/">https://sazonov-dev.github.io/mesto-project/</a>
