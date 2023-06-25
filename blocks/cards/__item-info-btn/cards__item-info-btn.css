@@ -1,0 +1,14 @@
+.cards__item-info-btn {
+    background-image: url("../../../images/cards/like.svg");
+    background-position: center;
+    background-size: cover;
+    width: 22px;
+    height: 19px;
+    cursor: pointer;
+}
+
+.cards__item-info-btn:active{
+    opacity: 1;
+    background-image: url("../../../images/cards/like-black.svg");
+}
+
