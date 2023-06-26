@@ -7,8 +7,8 @@
     background-image: url("../../../images/popup/close-icon.svg");
     background-position: center;
     background-size: cover;
-    right: -35px;
-    top: -35px;
+    right: -40px;
+    top: -40px;
     cursor: pointer;
 }
 
@@ -16,6 +16,7 @@
     .popup__close-icon {
         width: 20px;
         height: 20px;
+        top: -30px;
         right: 0;
     }
 }
