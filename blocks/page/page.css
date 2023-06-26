@@ -5,7 +5,3 @@
     position: relative;
     z-index: 0;
 }
-
-.page__button:hover {
-    opacity: 0.5;
-}

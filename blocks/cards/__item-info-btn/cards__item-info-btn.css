@@ -1,4 +1,6 @@
 .cards__item-info-btn {
+    background: none;
+    border: none;
     background-image: url("../../../images/cards/like.svg");
     background-position: center;
     background-size: cover;
@@ -7,8 +9,6 @@
     cursor: pointer;
 }
 
-.cards__item-info-btn:active{
-    opacity: 1;
-    background-image: url("../../../images/cards/like-black.svg");
+.cards__item-info-btn:hover {
+    opacity: 0.5;
 }
-

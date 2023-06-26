@@ -1,7 +1,12 @@
 .profile__info-header-btn {
-    background-image: url("../../../images/profile/editbutton.svg");
+    background: none;
+    background-image: url("../../../images/profile/pencil.svg");
     background-position: center;
-    background-size: cover;
+    background-repeat: no-repeat;
+    border: 1px solid #FFFFFF;
+    padding: 0;
+    margin: 0;
+    background-size: 10px 10px;
     width: 24px;
     height: 24px;
     cursor: pointer;
@@ -10,6 +15,7 @@
 @media screen and (min-width: 320px) and (max-width: 625px) {
     .profile__info-header-btn {
         width: 18px;
+        background-size: 7.5px 7.5px;
         height: 18px;
     }
 }
