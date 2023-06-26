@@ -2,6 +2,8 @@
     margin: 0 auto;
     max-width: 1280px;
     color: #FFFFFF;
+    position: relative;
+    z-index: 0;
 }
 
 .page__button:hover {
