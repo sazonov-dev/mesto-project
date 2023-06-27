@@ -19,7 +19,7 @@
 @import url("../blocks/cards/__item-img/cards__item-img.css");
 @import url("../blocks/cards/__item-info/cards__item-info.css");
 @import url("../blocks/cards/__item-info-btn/cards__item-info-btn.css");
-@import url("../blocks/cards/_active/cards_active.css");
+@import url("../blocks/cards/__item-info-btn/_active/cards__item-info-btn_active.css");
 @import url("../blocks/cards/__item-info-title/cards__item-info-title.css");
 @import url("../blocks/footer/footer.css");
 @import url("../blocks/footer/__copyright/footer__copyright.css");
