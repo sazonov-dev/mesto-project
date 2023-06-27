@@ -1,12 +1,14 @@
 .popup__container-btn {
     width: 100%;
-    padding: 18px 125px;
+    padding: 14px 125px 18px;
     border: 0;
     border-radius: 2px;
     font-size: 18px;
     background-color: black;
     color: white;
+    box-sizing: border-box;
     cursor: pointer;
+    max-height: 50px;
 }
 
 .popup__container-btn:hover {
