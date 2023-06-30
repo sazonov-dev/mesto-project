@@ -5,11 +5,11 @@ const editPopup = page.querySelector('#popup__profile');
 const placePopup = page.querySelector('#popup__place');
 const closeProfilePopup = page.querySelector('#close__edit-icon');
 const closePlacePopup = page.querySelector('#close__place-icon');
-const editPopupSaveButton = editPopup.querySelector('.popup__container-btn');
-const savePlaceButton = placePopup.querySelector('.popup__container-btn');
 const cardsSection = page.querySelector('.cards');
 const popupPhotoContent = page.querySelector('.popup__content');
 const popupPhoto = page.querySelector('#popup__photo');
+const profileForm = page.querySelector('#profileForm');
+const placeForm = page.querySelector('#placeFrom');
 
 
 const initialCards = [
@@ -169,11 +169,10 @@ const photoPopupInit = (photoInfo) => {
 
 addCards(initialCards)
 
-
 editButton.addEventListener('click', (() => editPopupHandler(true)));
 profileButton.addEventListener('click', (() => placePopupHandler(true)));
 closeProfilePopup.addEventListener('click', (() => closePopupHandler('close__edit-icon')));
 closePlacePopup.addEventListener('click', (() => closePopupHandler('close__place-icon')));
-editPopupSaveButton.addEventListener('click', ((event) => saveEditProfileHandler(event)));
-savePlaceButton.addEventListener('click', ((event) => savePlaceHandler(event)));
+profileForm.addEventListener('submit', ((event) => saveEditProfileHandler(event)))
+placeForm.addEventListener('submit', ((event) => savePlaceHandler(event)));
 cardsSection.addEventListener('click', (event) => cardsHandler(event));
