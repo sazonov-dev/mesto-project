@@ -44,7 +44,7 @@ const addCards = (cards) => {
         cardsSection.innerHTML += `<div class="cards__item">
         <img src="${card.link}" alt="${card.name}"
             class="cards__item-img">
-        <button class="cards__item-trash" id="cards__trash"></button>
+        <button class="cards__item-trash" id="cards__trash" type="button"></button>
         <div class="cards__item-info">
             <h2 class="cards__item-info-title">${card.name}</h2>
             <button class="cards__item-info-btn" id="cards__like" type="button"></button>
@@ -106,7 +106,7 @@ const savePlaceHandler = (event) => {
     cardsSection.insertAdjacentHTML('afterbegin', `<div class="cards__item">
     <img src="${inputPlaceLink}" alt="${inputPlaceName}"
         class="cards__item-img">
-        <button class="cards__item-trash" id="cards__trash"></button>
+        <button class="cards__item-trash" id="cards__trash" type="button"></button>
     <div class="cards__item-info">
         <h2 class="cards__item-info-title">${inputPlaceName}</h2>
         <button class="cards__item-info-btn" id="cards__like" type="button"></button>
