@@ -1,4 +1,6 @@
 .cards__item-trash {
+    background: none;
+    border: none;
     position: absolute;
     top: 20px;
     right: 20px;
