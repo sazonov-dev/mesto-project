@@ -6,11 +6,17 @@ const placePopup = page.querySelector('#popup__place');
 const closeProfilePopup = page.querySelector('#close__edit-icon');
 const closePlacePopup = page.querySelector('#close__place-icon');
 const cardsSection = page.querySelector('.cards');
-const popupPhotoContent = page.querySelector('.popup__content');
 const popupPhoto = page.querySelector('#popup__photo');
 const profileForm = page.querySelector('#profileForm');
 const placeForm = page.querySelector('#placeFrom');
-
+let profileName = page.querySelector('.profile__info-content-title');
+let profileJob = page.querySelector('.profile__info-content-job');
+const inputProfileName = editPopup.querySelector('#profileName');
+const inputProfileJob = editPopup.querySelector('#profileJob');
+const cardTemplate = cardsSection.querySelector('.cards__item');
+const closePhotoPopup = page.querySelector('#close__photo-icon');
+inputProfileName.value = profileName.textContent;
+inputProfileJob.value = profileJob.textContent;
 
 const initialCards = [
     {
@@ -40,100 +46,60 @@ const initialCards = [
 ];
 
 const addCards = (cards) => {
+
     cards.forEach((card) => {
-        cardsSection.innerHTML += `<div class="cards__item">
-        <img src="${card.link}" alt="${card.name}"
-            class="cards__item-img">
-        <button class="cards__item-trash" id="cards__trash" type="button"></button>
-        <div class="cards__item-info">
-            <h2 class="cards__item-info-title">${card.name}</h2>
-            <button class="cards__item-info-btn" id="cards__like" type="button"></button>
-        </div>
-    </div>`
+        let elem = document.createElement('div');
+        elem.classList.add('cards__item')
+        elem.append(cardTemplate.content.cloneNode(true));
+        let img = elem.querySelector('img')
+        let title = elem.querySelector('.cards__item-info-title')
+        img.src = card.link
+        img.alt = card.name
+        title.textContent = card.name;
+        cardsSection.append(elem);
     })
 }
 
-const editPopupHandler = (type) => {
-    const profileName = page.querySelector('.profile__info-content-title').innerText;
-    const profileJob = page.querySelector('.profile__info-content-job').innerText;
-    const inputProfileName = editPopup.querySelector('#profileName');
-    const inputProfileJob = editPopup.querySelector('#profileJob');
-
-    if (type === true) {
-        inputProfileName.placeholder = profileName;
-        inputProfileJob.placeholder = profileJob;
-        return editPopup.classList.add('popup_opened');
-    }
-
-    return editPopup.classList.remove('popup_opened');
+const closePopup = (popup) => {
+    // let popupParent = popup.parentNode.parentNode;
+    popup.classList.remove('popup_opened');
 }
 
-const placePopupHandler = (type) => {
-    if (type === true) {
-        return placePopup.classList.add('popup_opened');
-    }
-
-    return placePopup.classList.remove('popup_opened');
-}
-
-const photoPopupHandler = (type) => {
-    if (type === true) {
-        return popupPhoto.classList.add('popup_opened');
-    }
-
-    return popupPhoto.classList.remove('popup_opened');
+const openPopup = (popup) => {
+    popup.classList.add('popup_opened');
 }
 
 const saveEditProfileHandler = (event) => {
     event.preventDefault();
-    const inputProfileName = editPopup.querySelector('#profileName').value;
-    const inputProfileJob = editPopup.querySelector('#profileJob').value;
-    let profileName = page.querySelector('.profile__info-content-title');
-    let profileJob = page.querySelector('.profile__info-content-job');
 
-    profileName.textContent = inputProfileName;
-    profileJob.textContent = inputProfileJob;
+    profileName.textContent = inputProfileName.value;
+    profileJob.textContent = inputProfileJob.value;
 
-    return closePopupHandler('close__edit-icon');
+    return closePopup(editPopup)
 }
 
 const savePlaceHandler = (event) => {
     event.preventDefault();
+    const form = event.target
+    const placeLink = form.elements['imgLink'].value
+    const placeName = form.elements['placeName'].value
+    let elem = document.createElement('div');
+    elem.classList.add('cards__item')
+    elem.append(cardTemplate.content.cloneNode(true));
+    let img = elem.querySelector('img')
+    let title = elem.querySelector('.cards__item-info-title')
+    img.src = placeLink
+    img.alt = placeName
+    title.textContent = placeName;
+    cardsSection.prepend(elem);
 
-    const inputPlaceName = placePopup.querySelector('#placeName').value;
-    const inputPlaceLink = placePopup.querySelector('#imgLink').value;
-
-    cardsSection.insertAdjacentHTML('afterbegin', `<div class="cards__item">
-    <img src="${inputPlaceLink}" alt="${inputPlaceName}"
-        class="cards__item-img">
-        <button class="cards__item-trash" id="cards__trash" type="button"></button>
-    <div class="cards__item-info">
-        <h2 class="cards__item-info-title">${inputPlaceName}</h2>
-        <button class="cards__item-info-btn" id="cards__like" type="button"></button>
-    </div>
-</div>`)
-
-    return closePopupHandler('close__place-icon');
+    return closePopup(placePopup);
 }
 
 const clearPopupValues = (inputData) => {
     inputData.forEach((el) => {
         el.value = '';
     });
-}
-
-const closePopupHandler = (targetId) => {
-    if (targetId === 'close__edit-icon') {
-        let inputData = editPopup.querySelectorAll('.popup__container-input');
-        clearPopupValues(inputData);
-        return editPopupHandler(false);
-    } else if (targetId === 'close__place-icon'){
-        let inputData = placePopup.querySelectorAll('.popup__container-input');
-        clearPopupValues(inputData);
-        return placePopupHandler(false);
-    } else {
-        return photoPopupHandler(false);
-    }
 }
 
 const cardsHandler = (event) => {
@@ -147,32 +113,31 @@ const cardsHandler = (event) => {
             src: target.src,
             name: target.alt
         }
+        console.log(target)
 
-        return photoPopupInit(photoInfo)
+        photoPopupInit(photoInfo)
+
+        return openPopup(popupPhoto)
     }
 
     return false;
 }
 
 const photoPopupInit = (photoInfo) => {
-    popupPhotoContent.innerHTML = `<img class="popup__content-img" src="${photoInfo.src}" alt="${photoInfo.name}">
-    <p class="popup__content-text">${photoInfo.name}</p>
-    <button class="popup__close-icon page__button" id="close__photo-icon" type="button"></button>`
-
-    const closePhotoPopup = page.querySelector('#close__photo-icon')
-    
-    closePhotoPopup.addEventListener('click', (() => closePopupHandler('close__photo-icon')));
-
-    popupPhoto.classList.add('popup_opened')
+    let img = popupPhoto.querySelector('.popup__content-img')
+    let name = popupPhoto.querySelector('.popup__content-text')
+    img.src = photoInfo.src
+    img.alt = photoInfo.name
+    name.textContent = photoInfo.name
 }
-
 
 addCards(initialCards)
 
-editButton.addEventListener('click', (() => editPopupHandler(true)));
-profileButton.addEventListener('click', (() => placePopupHandler(true)));
-closeProfilePopup.addEventListener('click', (() => closePopupHandler('close__edit-icon')));
-closePlacePopup.addEventListener('click', (() => closePopupHandler('close__place-icon')));
+editButton.addEventListener('click', (() => openPopup(editPopup)));
+profileButton.addEventListener('click', (() => openPopup(placePopup)));
+closeProfilePopup.addEventListener('click', (() => closePopup(editPopup)));
+closePlacePopup.addEventListener('click', (() => closePopup(placePopup)));
+closePhotoPopup.addEventListener('click', (() => closePopup(popupPhoto)));
 profileForm.addEventListener('submit', ((event) => saveEditProfileHandler(event)))
 placeForm.addEventListener('submit', ((event) => savePlaceHandler(event)));
 cardsSection.addEventListener('click', (event) => cardsHandler(event));
