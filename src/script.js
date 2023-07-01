@@ -9,12 +9,14 @@ const cardsSection = page.querySelector('.cards');
 const popupPhoto = page.querySelector('#popup__photo');
 const profileForm = page.querySelector('#profileForm');
 const placeForm = page.querySelector('#placeFrom');
-let profileName = page.querySelector('.profile__info-content-title');
-let profileJob = page.querySelector('.profile__info-content-job');
+const profileName = page.querySelector('.profile__info-content-title');
+const profileJob = page.querySelector('.profile__info-content-job');
 const inputProfileName = editPopup.querySelector('#profileName');
 const inputProfileJob = editPopup.querySelector('#profileJob');
-const cardTemplate = cardsSection.querySelector('.cards__item');
+const cardTemplate = cardsSection.querySelector('#card').content;
 const closePhotoPopup = page.querySelector('#close__photo-icon');
+const imgContent = popupPhoto.querySelector('.popup__content-img');
+const imgText = popupPhoto.querySelector('.popup__content-text');
 inputProfileName.value = profileName.textContent;
 inputProfileJob.value = profileJob.textContent;
 
@@ -45,23 +47,29 @@ const initialCards = [
     }
 ];
 
-const addCards = (cards) => {
-
+const addCard = (cards) => {
     cards.forEach((card) => {
-        let elem = document.createElement('div');
-        elem.classList.add('cards__item')
-        elem.append(cardTemplate.content.cloneNode(true));
-        let img = elem.querySelector('img')
-        let title = elem.querySelector('.cards__item-info-title')
-        img.src = card.link
-        img.alt = card.name
-        title.textContent = card.name;
-        cardsSection.append(elem);
+        cardsSection.append(card);
     })
 }
 
+const prepareCard = (cards) => {
+    const preparedCards = cards.map((card) => {
+        return createCard(card)
+    })
+
+    return preparedCards;
+}
+
+const createCard = (item) => {
+    const cardElement = cardTemplate.querySelector('.cards__item').cloneNode(true);
+    cardElement.querySelector('.cards__item-img').src = item.link;
+    cardElement.querySelector('.cards__item-img').alt = item.name;
+    cardElement.querySelector('.cards__item-info-title').textContent = item.name;
+    return cardElement
+}
+
 const closePopup = (popup) => {
-    // let popupParent = popup.parentNode.parentNode;
     popup.classList.remove('popup_opened');
 }
 
@@ -72,26 +80,23 @@ const openPopup = (popup) => {
 const saveEditProfileHandler = (event) => {
     event.preventDefault();
 
-    profileName.textContent = inputProfileName.value;
-    profileJob.textContent = inputProfileJob.value;
+    profileName.textContent = inputProfileName.value; 
+    profileJob.textContent = inputProfileJob.value; 
 
     return closePopup(editPopup)
 }
 
 const savePlaceHandler = (event) => {
     event.preventDefault();
-    const form = event.target
-    const placeLink = form.elements['imgLink'].value
-    const placeName = form.elements['placeName'].value
-    let elem = document.createElement('div');
-    elem.classList.add('cards__item')
-    elem.append(cardTemplate.content.cloneNode(true));
-    let img = elem.querySelector('img')
-    let title = elem.querySelector('.cards__item-info-title')
-    img.src = placeLink
-    img.alt = placeName
-    title.textContent = placeName;
-    cardsSection.prepend(elem);
+    const form = event.target;
+    const placeLink = form.elements['imgLink'].value;
+    const placeName = form.elements['placeName'].value;
+    const item = {
+        name: placeName,
+        link: placeLink
+    }
+    const card = createCard(item);
+    cardsSection.prepend(card);
 
     return closePopup(placePopup);
 }
@@ -109,11 +114,10 @@ const cardsHandler = (event) => {
     } else if (target.id === 'cards__trash') {
         return cardsSection.removeChild(event.target.parentNode)
     } else if (target.classList.contains('cards__item-img')) {
-        let photoInfo = {
+        const photoInfo = {
             src: target.src,
             name: target.alt
         }
-        console.log(target)
 
         photoPopupInit(photoInfo)
 
@@ -124,16 +128,19 @@ const cardsHandler = (event) => {
 }
 
 const photoPopupInit = (photoInfo) => {
-    let img = popupPhoto.querySelector('.popup__content-img')
-    let name = popupPhoto.querySelector('.popup__content-text')
-    img.src = photoInfo.src
-    img.alt = photoInfo.name
-    name.textContent = photoInfo.name
+    imgContent.src = photoInfo.src
+    imgContent.alt = photoInfo.name
+    imgText.textContent = photoInfo.name
 }
 
-addCards(initialCards)
+const cards = prepareCard(initialCards);
+addCard(cards)
 
-editButton.addEventListener('click', (() => openPopup(editPopup)));
+editButton.addEventListener('click', (() => {
+    openPopup(editPopup)
+    inputProfileName.value = profileName.textContent;
+    inputProfileJob.value = profileJob.textContent;
+}));
 profileButton.addEventListener('click', (() => openPopup(placePopup)));
 closeProfilePopup.addEventListener('click', (() => closePopup(editPopup)));
 closePlacePopup.addEventListener('click', (() => closePopup(placePopup)));

@@ -29,13 +29,14 @@
                 <button class="profile__btn page__button" type="button"></button>
             </section>
             <section class="cards">
-                <template class="cards__item">
-                    <img src="" alt=""
-                        class="cards__item-img">
-                    <button class="cards__item-trash" id="cards__trash" type="button"></button>
-                    <div class="cards__item-info">
-                        <h2 class="cards__item-info-title"></h2>
-                        <button class="cards__item-info-btn" id="cards__like" type="button"></button>
+                <template id="card">
+                    <div class="cards__item">
+                        <img src="" alt="" class="cards__item-img">
+                        <button class="cards__item-trash" id="cards__trash" type="button"></button>
+                        <div class="cards__item-info">
+                            <h2 class="cards__item-info-title"></h2>
+                            <button class="cards__item-info-btn" id="cards__like" type="button"></button>
+                        </div>
                     </div>
                 </template>
             </section>
@@ -47,8 +48,10 @@
             <div class="popup__container">
                 <h2 class="popup__container-title">Редактировать профиль</h2>
                 <form action="/changeProfile" class="popup__container-form" name="changeProfile" id="profileForm">
-                    <input type="text" class="popup__container-input" id="profileName" name="profileName" placeholder="Введите имя" required>
-                    <input type="text" class="popup__container-input" id="profileJob" name="profileJob" placeholder="Введите профессию" required>
+                    <input type="text" class="popup__container-input" id="profileName" name="profileName"
+                        placeholder="Введите имя" required>
+                    <input type="text" class="popup__container-input" id="profileJob" name="profileJob"
+                        placeholder="Введите профессию" required>
                     <button class="popup__container-btn" type="submit">Сохранить</button>
                 </form>
                 <button class="popup__close-icon page__button" id="close__edit-icon" type="button"></button>
@@ -59,8 +62,10 @@
             <div class="popup__container">
                 <h2 class="popup__container-title">Новое место</h2>
                 <form action="/changeProfile" class="popup__container-form" name="placeForm" id="placeFrom">
-                    <input type="text" class="popup__container-input" id="placeName" name="placeName" placeholder="Название" required>
-                    <input type="text" class="popup__container-input" id="imgLink" name="imgLink" placeholder="Ссылка на картинку" required>
+                    <input type="text" class="popup__container-input" id="placeName" name="placeName"
+                        placeholder="Название" required>
+                    <input type="text" class="popup__container-input" id="imgLink" name="imgLink"
+                        placeholder="Ссылка на картинку" required>
                     <button class="popup__container-btn" type="submit">Создать</button>
                 </form>
                 <button class="popup__close-icon page__button" id="close__place-icon" type="button"></button>
