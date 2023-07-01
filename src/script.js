@@ -70,6 +70,7 @@ const createCard = (item) => {
 }
 
 const closePopup = (popup) => {
+    popup.querySelector('form').reset();
     popup.classList.remove('popup_opened');
 }
 
@@ -80,8 +81,10 @@ const openPopup = (popup) => {
 const saveEditProfileHandler = (event) => {
     event.preventDefault();
 
+    const form = event.target;
+
     profileName.textContent = inputProfileName.value; 
-    profileJob.textContent = inputProfileJob.value; 
+    profileJob.textContent = inputProfileJob.value;
 
     return closePopup(editPopup)
 }
@@ -99,12 +102,6 @@ const savePlaceHandler = (event) => {
     cardsSection.prepend(card);
 
     return closePopup(placePopup);
-}
-
-const clearPopupValues = (inputData) => {
-    inputData.forEach((el) => {
-        el.value = '';
-    });
 }
 
 const cardsHandler = (event) => {
