@@ -134,9 +134,10 @@ const cards = prepareCard(initialCards);
 addCard(cards)
 
 editButton.addEventListener('click', (() => {
-    openPopup(editPopup)
     inputProfileName.value = profileName.textContent;
     inputProfileJob.value = profileJob.textContent;
+    
+    openPopup(editPopup)
 }));
 profileButton.addEventListener('click', (() => openPopup(placePopup)));
 closeProfilePopup.addEventListener('click', (() => closePopup(editPopup)));
