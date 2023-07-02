@@ -70,7 +70,6 @@ const createCard = (item) => {
 }
 
 const closePopup = (popup) => {
-    popup.querySelector('form').reset();
     popup.classList.remove('popup_opened');
 }
 
@@ -136,10 +135,12 @@ addCard(cards)
 editButton.addEventListener('click', (() => {
     inputProfileName.value = profileName.textContent;
     inputProfileJob.value = profileJob.textContent;
-    
     openPopup(editPopup)
 }));
-profileButton.addEventListener('click', (() => openPopup(placePopup)));
+profileButton.addEventListener('click', (() => {
+    placePopup.querySelector('form').reset();
+    openPopup(placePopup)
+}));
 closeProfilePopup.addEventListener('click', (() => closePopup(editPopup)));
 closePlacePopup.addEventListener('click', (() => closePopup(placePopup)));
 closePhotoPopup.addEventListener('click', (() => closePopup(popupPhoto)));
