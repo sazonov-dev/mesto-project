@@ -14,6 +14,8 @@
 <ul>
     <li>HTML</li>
     <li>CSS</li>
+    <li>JavaScript</li>
+    <li>Webpack</li>
 </ul>
 
 **Ссылка на GitHub Pages**
