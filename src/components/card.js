@@ -49,7 +49,7 @@ const createCard = (item) => {
     return cardElement
 }
 
-const cardsHandler = (event) => {
+const selectCardEvent = (event) => {
     const target = event.target;
     if (target.id === 'cards__like') {
         event.target.classList.toggle('cards__item-info-btn_active');
@@ -69,4 +69,4 @@ const cardsHandler = (event) => {
     return false;
 }
 
-export {addCard, prepareCard, createCard, cardsHandler, initialCards}
+export {addCard, prepareCard, createCard, selectCardEvent, initialCards}
