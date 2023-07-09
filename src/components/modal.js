@@ -1,11 +1,11 @@
-import { imgContent, imgText } from '../index.js'
+import { imgContent, imgText } from '../index.js';
+import { resetFormsInput } from './utils.js';
 
 
 function closeByEscape(evt) {
     if (evt.key === 'Escape') {
       const openedPopup = document.querySelector('.popup_opened')
       closePopup(openedPopup)
-      document.removeEventListener('keydown', closeByEscape);
     }
 }
 
@@ -14,9 +14,9 @@ const closePopup = (popup) => {
     document.removeEventListener("keydown", closeByEscape);
 }
 
-const openPopup = (popup) => {
+const openPopup = (popup, settings) => {
     popup.classList.add('popup_opened');
-
+    resetFormsInput(popup, settings);
     document.addEventListener("keydown", closeByEscape);
 }
 

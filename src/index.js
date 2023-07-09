@@ -41,11 +41,11 @@ enableValidation(enableValidationSettings);
 editButton.addEventListener('click', (() => {
     inputProfileName.value = profileName.textContent;
     inputProfileJob.value = profileJob.textContent;
-    openPopup(editPopup)
+    openPopup(editPopup, enableValidationSettings)
 }));
 profileButton.addEventListener('click', (() => {
     placeForm.reset();
-    openPopup(placePopup)
+    openPopup(placePopup, enableValidationSettings)
 }));
 popups.forEach((popup) => {
     popup.addEventListener('mousedown', (evt) => {
@@ -59,7 +59,7 @@ popups.forEach((popup) => {
     })
 })
 profileForm.addEventListener('submit', ((event) => saveEditProfileHandler(event)))
-placeForm.addEventListener('submit', ((event) => savePlaceHandler(event)));
-cardsSection.addEventListener('click', (event) => selectCardEvent(event));
+placeForm.addEventListener('submit', ((event) => savePlaceHandler(event, enableValidationSettings)));
+cardsSection.addEventListener('click', (event) => selectCardEvent(event, enableValidationSettings));
 
 export { cardsSection, cardTemplate, page, imgContent, editPopup, placePopup, profileName, profileJob, inputProfileName, inputProfileJob, imgText, popupPhoto, enableValidationSettings }

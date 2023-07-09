@@ -49,7 +49,7 @@ const createCard = (item) => {
     return cardElement
 }
 
-const selectCardEvent = (event) => {
+const selectCardEvent = (event, settings) => {
     const target = event.target;
     if (target.id === 'cards__like') {
         event.target.classList.toggle('cards__item-info-btn_active');
@@ -63,7 +63,7 @@ const selectCardEvent = (event) => {
 
         photoPopupInit(photoInfo)
 
-        return openPopup(popupPhoto)
+        return openPopup(popupPhoto, settings)
     }
 
     return false;

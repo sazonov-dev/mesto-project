@@ -1,7 +1,7 @@
-import { editPopup, placePopup, profileJob, profileName, inputProfileJob, inputProfileName, cardsSection, enableValidationSettings} from '../index.js';
+import { editPopup, placePopup, profileJob, profileName, inputProfileJob, inputProfileName, cardsSection } from '../index.js';
 import { createCard } from './card.js';
 import { closePopup } from './modal.js';
-import { enableValidation } from './validate.js';
+import { toggleButtonState } from './validate.js';
 
 const saveEditProfileHandler = (event) => {
     event.preventDefault();
@@ -9,12 +9,10 @@ const saveEditProfileHandler = (event) => {
     profileName.textContent = inputProfileName.value;
     profileJob.textContent = inputProfileJob.value;
 
-    enableValidation(enableValidationSettings);
-
     return closePopup(editPopup)
 }
 
-const savePlaceHandler = (event) => {
+const savePlaceHandler = (event, settings) => {
     event.preventDefault();
     const form = event.target;
     const placeLink = form.elements['imgLink'].value;
@@ -26,10 +24,18 @@ const savePlaceHandler = (event) => {
     const card = createCard(item);
     cardsSection.prepend(card);
 
-    enableValidation(enableValidationSettings);
-
+    resetFormsInput(form, settings);
     return closePopup(placePopup);
 }
 
+const resetFormsInput = (formElement, settings) => {
+    if (formElement.id === 'popup__photo') {
+        return;
+    }
+    const inputList = Array.from(formElement.querySelectorAll(settings.input));
+    const buttonElement = formElement.querySelector(settings.button);
+    toggleButtonState(inputList, buttonElement, settings)
+}
 
-export { savePlaceHandler, saveEditProfileHandler }
+
+export { savePlaceHandler, saveEditProfileHandler, resetFormsInput }
