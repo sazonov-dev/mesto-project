@@ -2,6 +2,7 @@ import { enableValidation } from './components/validate.js';
 import { addCard, prepareCard, initialCards, selectCardEvent} from './components/card.js'
 import { openPopup, closePopup } from './components/modal.js'
 import { saveEditProfileHandler, savePlaceHandler } from './components/utils.js';
+import { resetFormsInput } from './components/utils.js';
 import './pages/index.css';
 
 const page = document.querySelector('.page');
@@ -45,6 +46,7 @@ editButton.addEventListener('click', (() => {
 }));
 profileButton.addEventListener('click', (() => {
     placeForm.reset();
+    resetFormsInput(placePopup, enableValidationSettings);
     openPopup(placePopup, enableValidationSettings)
 }));
 popups.forEach((popup) => {

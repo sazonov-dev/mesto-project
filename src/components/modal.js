@@ -16,7 +16,6 @@ const closePopup = (popup) => {
 
 const openPopup = (popup, settings) => {
     popup.classList.add('popup_opened');
-    resetFormsInput(popup, settings);
     document.addEventListener("keydown", closeByEscape);
 }
 
