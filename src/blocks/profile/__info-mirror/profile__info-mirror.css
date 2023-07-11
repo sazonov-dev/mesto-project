@@ -1,0 +1,19 @@
+.profile__info-mirror {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 120px;
+    height: 120px;
+    border: none;
+    background: none;
+}
+
+.profile__info-mirror:hover {
+    background-color: rgba(0,0,0,.5);
+    background-image: url('../../../images/profile/ava-pen.svg');
+    background-size: 26px 26px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}

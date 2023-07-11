@@ -1,4 +1,8 @@
 .profile__logo {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
   object-fit: cover;
   width: 120px;
   height: 120px;

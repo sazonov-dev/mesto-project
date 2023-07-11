@@ -1,5 +1,4 @@
 import { imgContent, imgText } from '../index.js';
-import { resetFormsInput } from './utils.js';
 
 
 function closeByEscape(evt) {

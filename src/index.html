@@ -18,23 +18,30 @@
         <main class="main">
             <section class="profile">
                 <div class="profile__info">
-                    <img class="profile__logo" src="<%=require('./images/profile/ava.jpg')%>" alt="Фотография профиля">
+                    <div class="profile__info-edit">
+                        <button class="profile__info-mirror">
+                        </button>
+                        <img class="profile__logo" src="" alt="Фотография профиля">
+                    </div>
                     <div class="profile__info-content">
-                        <h1 class="profile__info-content-title">Жак-Ив Кусто</h1>
+                        <h1 class="profile__info-content-title"></h1>
                         <button class="profile__info-content-btn page__button" type="button"></button>
-                        <p class="profile__info-content-job">Исследователь океана</p>
+                        <p class="profile__info-content-job"></p>
                     </div>
                 </div>
                 <button class="profile__btn page__button" type="button"></button>
             </section>
             <section class="cards">
                 <template id="card">
-                    <div class="cards__item">
+                    <div class="cards__item" data-id="">
                         <img src="" alt="" class="cards__item-img">
                         <button class="cards__item-trash" id="cards__trash" type="button"></button>
                         <div class="cards__item-info">
                             <h2 class="cards__item-info-title"></h2>
-                            <button class="cards__item-info-btn" id="cards__like" type="button"></button>
+                            <div class="cards__item-info-likes">
+                                <button class="cards__item-info-btn" id="cards__like" type="button"></button>
+                                <span class="cards__item-info-like-count"></span>
+                            </div>
                         </div>
                     </div>
                 </template>
@@ -80,6 +87,19 @@
                 <img class="popup__content-img" src="" alt="">
                 <p class="popup__content-text"></p>
                 <button class="popup__close-icon page__button" id="close__photo-icon" type="button"></button>
+            </div>
+        </div>
+
+        <div class="popup" id="popup__avatar">
+            <div class="popup__container">
+                <h2 class="popup__container-title">Обновить аватар</h2>
+                <form action="/changeProfile" class="popup__container-form" name="avatarForm" id="avatarForm">
+                    <input type="url" class="popup__container-input" id="imgLink" name="imgLink"
+                        placeholder="Ссылка на картинку" required>
+                        <span class="imgLink-error"></span>
+                    <button class="popup__container-btn" type="submit">Сохранить</button>
+                </form>
+                <button class="popup__close-icon page__button" id="close__place-icon" type="button"></button>
             </div>
         </div>
     </div>

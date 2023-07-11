@@ -1,5 +1,5 @@
-import { editPopup, placePopup, profileJob, profileName, inputProfileJob, inputProfileName, cardsSection } from '../index.js';
-import { createCard } from './card.js';
+import { editPopup, placePopup, profileJob, profileName, inputProfileJob, inputProfileName, page } from '../index.js';
+import { fetchAddCard, fetchUpdateContent,config } from './api.js';
 import { closePopup } from './modal.js';
 import { toggleButtonState } from './validate.js';
 
@@ -9,7 +9,13 @@ const saveEditProfileHandler = (event) => {
     profileName.textContent = inputProfileName.value;
     profileJob.textContent = inputProfileJob.value;
 
+    fetchUpdateContent(event.target, {name: inputProfileName.value, about: inputProfileJob.value})
+
     return closePopup(editPopup)
+}
+
+const setAvatar = (url) => {
+    return page.querySelector('.profile__logo').src = url;
 }
 
 const savePlaceHandler = (event, settings) => {
@@ -19,11 +25,14 @@ const savePlaceHandler = (event, settings) => {
     const placeName = form.elements['placeName'].value;
     const item = {
         name: placeName,
-        link: placeLink
+        link: placeLink,
+        owner: {
+            _id: config.myId
+        },
+        likes: []
     }
-    const card = createCard(item);
-    cardsSection.prepend(card);
 
+    fetchAddCard(form, item)
     resetFormsInput(form, settings);
     return closePopup(placePopup);
 }
@@ -37,5 +46,13 @@ const resetFormsInput = (formElement, settings) => {
     toggleButtonState(inputList, buttonElement, settings)
 }
 
+const toggleButtonText = (button, state) => {
+    if (state) {
+        button.textContent = 'Сохранение...'
+    } else {
+        button.textContent = 'Сохранить'
+    }
+}
 
-export { savePlaceHandler, saveEditProfileHandler, resetFormsInput }
+
+export { savePlaceHandler, saveEditProfileHandler, resetFormsInput, setAvatar, toggleButtonText }

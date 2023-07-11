@@ -1,8 +1,9 @@
 import { enableValidation } from './components/validate.js';
-import { addCard, prepareCard, initialCards, selectCardEvent} from './components/card.js'
+import { selectCardEvent} from './components/card.js'
 import { openPopup, closePopup } from './components/modal.js'
 import { saveEditProfileHandler, savePlaceHandler } from './components/utils.js';
 import { resetFormsInput } from './components/utils.js';
+import { fetchSaveAvatar, fetchCards, setProfileContent } from './components/api.js'
 import './pages/index.css';
 
 const page = document.querySelector('.page');
@@ -21,9 +22,13 @@ const inputProfileJob = editPopup.querySelector('#profileJob');
 const cardTemplate = cardsSection.querySelector('#card').content;
 const imgContent = popupPhoto.querySelector('.popup__content-img');
 const imgText = popupPhoto.querySelector('.popup__content-text');
+const profileLogo = page.querySelector('.profile__logo');
 inputProfileName.value = profileName.textContent;
 inputProfileJob.value = profileJob.textContent;
 const popups = document.querySelectorAll('.popup')
+const avatarButton = page.querySelector('.profile__info-mirror');
+const avatarForm = page.querySelector('#avatarForm')
+const avatarPopup = page.querySelector('#popup__avatar')
 
 const enableValidationSettings = {
     form: '.popup__container-form',
@@ -35,8 +40,8 @@ const enableValidationSettings = {
     errorActive: 'popup__container-form-error_active' 
 }
 
-const cards = prepareCard(initialCards);
-addCard(cards)
+fetchCards()
+setProfileContent({profileLogo, profileName, profileJob})
 enableValidation(enableValidationSettings);
 
 editButton.addEventListener('click', (() => {
@@ -49,6 +54,11 @@ profileButton.addEventListener('click', (() => {
     resetFormsInput(placePopup, enableValidationSettings);
     openPopup(placePopup, enableValidationSettings)
 }));
+avatarButton.addEventListener('click', () => {
+    avatarForm.reset();
+    resetFormsInput(avatarPopup, enableValidationSettings);
+    openPopup(avatarPopup, enableValidationSettings)
+})
 popups.forEach((popup) => {
     popup.addEventListener('mousedown', (evt) => {
         if (evt.target.classList.contains('popup_opened')) {
@@ -62,6 +72,7 @@ popups.forEach((popup) => {
 })
 profileForm.addEventListener('submit', ((event) => saveEditProfileHandler(event)))
 placeForm.addEventListener('submit', ((event) => savePlaceHandler(event, enableValidationSettings)));
+avatarForm.addEventListener('submit', (event) => fetchSaveAvatar(event, avatarPopup))
 cardsSection.addEventListener('click', (event) => selectCardEvent(event, enableValidationSettings));
 
-export { cardsSection, cardTemplate, page, imgContent, editPopup, placePopup, profileName, profileJob, inputProfileName, inputProfileJob, imgText, popupPhoto, enableValidationSettings }
+export { cardsSection, cardTemplate, page, imgContent, editPopup, placePopup, profileName, profileJob, inputProfileName, inputProfileJob, imgText, popupPhoto, enableValidationSettings}

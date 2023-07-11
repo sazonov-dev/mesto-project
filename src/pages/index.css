@@ -7,6 +7,8 @@
 @import url("../blocks/header/__logo-img/header__logo-img.css");
 @import url("../blocks/main/main.css");
 @import url("../blocks/profile/profile.css");
+@import url("../blocks/profile/__info-mirror/profile__info-mirror.css");
+@import url("../blocks/profile/__info-edit/profile__info-edit.css");
 @import url("../blocks/profile/__btn/profile__btn.css");
 @import url("../blocks/profile/__info-content-btn/profile__info-content-btn.css");
 @import url("../blocks/profile/__info-content-job/profile__info-content-job.css");
@@ -19,6 +21,7 @@
 @import url("../blocks/cards/__item-img/cards__item-img.css");
 @import url("../blocks/cards/__item-trash/cards__item-trash.css");
 @import url("../blocks/cards/__item-info/cards__item-info.css");
+@import url("../blocks/cards/__item-info-likes/cards__item-info-likes.css");
 @import url("../blocks/cards/__item-info-btn/cards__item-info-btn.css");
 @import url("../blocks/cards/__item-info-btn/_active/cards__item-info-btn_active.css");
 @import url("../blocks/cards/__item-info-title/cards__item-info-title.css");
