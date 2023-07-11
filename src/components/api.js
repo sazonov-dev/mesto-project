@@ -1,14 +1,15 @@
 import { closePopup } from './modal.js';
 import { setAvatar, toggleButtonText} from './utils.js'
-import { prepareCard, createCard } from './card.js';
+import { createCard } from './card.js';
 import { cardsSection } from '../index.js'
-
+import { checkResponse } from '../utils/utils.js'
+ 
 const authorizationSettings = {
     token: 'b28805f4-ab65-4da3-9863-f9f73313226d',
     cohortId: 'plus-cohort-26'
 }
 
-let config = {
+const config = {
     baseUrl: `https://nomoreparties.co/v1/${authorizationSettings.cohortId}`,
     headers: {
         authorization: authorizationSettings.token,
@@ -23,47 +24,25 @@ const fetchContent = (handler) => {
     })
 }
 
-const fetchCards = () => {
-    fetchContent('/cards')
-        .then((res) => {
-            if (res.ok) {
-                return res.json()
-            }
-
-            return Promise.reject(res)
-        })
-        .then((res) => {
-            prepareCard(res);
-        })
-        .catch((err) => {
-            console.error(`Произошла ошибка, статус - ${err}`)
-        })
+const fetchCards = (handler) => {
+    return fetch(config.baseUrl + handler, {
+        headers: config.headers
+    })
+        .then(checkResponse)
 }
 
-const setProfileContent = (profileSelectors) => {
-    fetchContent('/users/me')
-        .then((res) => {
-            if (res.ok) {
-                return res.json()
-            }
-
-            return Promise.reject(res.status)
-        })
-        .then((res) => {
-            profileSelectors.profileLogo.src = res.avatar;
-            profileSelectors.profileName.textContent = res.name;
-            profileSelectors.profileJob.textContent = res.about;
-            config.myId = res._id;
-        })
-        .catch((err) => {
-            console.log(`Произошла ошибка, статус - ${err}`)
-        })
+const setProfileContent = (handler) => {
+    return fetch(config.baseUrl + handler, {
+        headers: config.headers
+    })
+        .then(checkResponse)
 }
 
 const fetchSaveAvatar = (event, form) => {
     event.preventDefault();
     const avatarUrl = event.target.querySelector('.popup__container-input').value;
     const button = event.target.querySelector('.popup__container-btn');
+    toggleButtonText(button, true)
     return fetch(config.baseUrl + '/users/me/avatar', {
         method: 'PATCH',
         headers: config.headers,
@@ -71,14 +50,7 @@ const fetchSaveAvatar = (event, form) => {
             avatar: avatarUrl
         })
     })
-        .then((res) => {
-            toggleButtonText(button, true)
-            if (res.ok) {
-                return res.json();
-            }
-
-            return Promise.reject(res.status);
-        })
+        .then(checkResponse)
         .then((res) => {
             setAvatar(res.avatar)
             closePopup(form)
@@ -93,6 +65,7 @@ const fetchSaveAvatar = (event, form) => {
 
 const fetchUpdateContent = (form, data) => {
     const button = form.querySelector('.popup__container-btn');
+    toggleButtonText(button, true)
     return fetch(config.baseUrl + '/users/me', {
         method: 'PATCH',
         headers: config.headers,
@@ -101,16 +74,11 @@ const fetchUpdateContent = (form, data) => {
           about: data.about
         })
     })
+    .then(checkResponse)
     .then((res) => {
-        toggleButtonText(button, true)
-        if (res.ok) {
-            return res.json();
-        }
-
-        return Promise.reject(res.status)
-    })
-    .then((res) => {
-        console.log(res)
+        data.profileSelector.textContent = data.name;
+        data.jobSelector.textContent = data.about;
+        closePopup(data.popup)
     })
     .catch((err) => {
         console.log(`Произошла ошибка, статус - ${err}`)
@@ -122,6 +90,7 @@ const fetchUpdateContent = (form, data) => {
 
 const fetchAddCard = (form, card) => {
     const button = form.querySelector('.popup__container-btn');
+    toggleButtonText(button, true)
     return fetch(config.baseUrl + '/cards', {
         method: 'POST',
         headers: config.headers,
@@ -130,14 +99,7 @@ const fetchAddCard = (form, card) => {
           link: card.link
         })
     })
-    .then((res) => {
-        toggleButtonText(button, true)
-        if (res.ok) {
-            return res.json();
-        }
-
-        return Promise.reject(res.status)
-    })
+    .then(checkResponse)
     .then((res) => {
         const card = createCard(res)
         cardsSection.prepend(card);
@@ -151,21 +113,15 @@ const fetchAddCard = (form, card) => {
 }
 
 const fetchLikeCard = (cardId, target) => {
-    let likeCount = target.parentNode.querySelector('.cards__item-info-like-count').textContent;
+    let likeCount = target.parentNode.querySelector('.cards__item-info-like-count');
     return fetch(config.baseUrl + `/cards/likes/${cardId}`, {
         method: 'PUT',
         headers: config.headers,
     })
+    .then(checkResponse)
     .then((res) => {
-        if (res.ok) {
-            return res.json();
-        }
-
-        return Promise.reject(res.status)
-    })
-    .then((res) => {
-        target.parentNode.querySelector('.cards__item-info-like-count').textContent = String(Number(likeCount) + 1);
-        console.log(res)
+        likeCount.textContent = res.likes.length;
+        target.classList.toggle('cards__item-info-btn_active');
     })
     .catch((err) => {
         console.log(`Произошла ошибка, статус - ${err}`)
@@ -173,21 +129,15 @@ const fetchLikeCard = (cardId, target) => {
 }
 
 const fetchDeleteLikeCard = (cardId, target) => {
-    let likeCount = target.parentNode.querySelector('.cards__item-info-like-count').textContent;
+    let likeCount = target.parentNode.querySelector('.cards__item-info-like-count');
     return fetch(config.baseUrl + `/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: config.headers
     })
+    .then(checkResponse)
     .then((res) => {
-        if (res.ok) {
-            return res.json();
-        }
-
-        return Promise.reject(res.status)
-    })
-    .then((res) => {
-        target.parentNode.querySelector('.cards__item-info-like-count').textContent = String(Number(likeCount) - 1);
-        console.log(res)
+        likeCount.textContent = res.likes.length;
+        target.classList.toggle('cards__item-info-btn_active');
     })
     .catch((err) => {
         console.log(`Произошла ошибка, статус - ${err}`)
@@ -199,13 +149,7 @@ const fetchDeleteCard = (cardId) => {
         method: 'DELETE',
         headers: config.headers
     })
-    .then((res) => {
-        if (res.ok) {
-            return res.json();
-        }
-
-        return Promise.reject(res.status)
-    })
+    .then(checkResponse)
     .then((res) => {
         console.log(res)
     })

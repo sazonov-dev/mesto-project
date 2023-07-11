@@ -6,12 +6,7 @@ import { toggleButtonState } from './validate.js';
 const saveEditProfileHandler = (event) => {
     event.preventDefault();
 
-    profileName.textContent = inputProfileName.value;
-    profileJob.textContent = inputProfileJob.value;
-
-    fetchUpdateContent(event.target, {name: inputProfileName.value, about: inputProfileJob.value})
-
-    return closePopup(editPopup)
+    fetchUpdateContent(event.target, {name: inputProfileName.value, about: inputProfileJob.value, profileSelector: profileName, jobSelector: profileJob, popup: editPopup})
 }
 
 const setAvatar = (url) => {

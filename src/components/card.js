@@ -59,17 +59,14 @@ const hasLike = (card) => {
 
 const selectCardEvent = (event, settings) => {
     const target = event.target;
+    const cardId = target.closest('.cards__item').dataset.id;
     if (target.id === 'cards__like') {
-        const cardId = target.parentNode.parentNode.parentNode.dataset.id;
         if (hasLike(target)) {
             fetchDeleteLikeCard(cardId, target);
         } else {
             fetchLikeCard(cardId, target);
         }
-
-        target.classList.toggle('cards__item-info-btn_active');
     } else if (target.id === 'cards__trash') {
-        const cardId = target.parentNode.dataset.id
         fetchDeleteCard(cardId)
         return cardsSection.removeChild(event.target.parentNode)
     } else if (target.classList.contains('cards__item-img')) {

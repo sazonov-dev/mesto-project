@@ -1,9 +1,29 @@
-import { enableValidation } from './components/validate.js';
-import { selectCardEvent} from './components/card.js'
-import { openPopup, closePopup } from './components/modal.js'
-import { saveEditProfileHandler, savePlaceHandler } from './components/utils.js';
-import { resetFormsInput } from './components/utils.js';
-import { fetchSaveAvatar, fetchCards, setProfileContent } from './components/api.js'
+import {
+    enableValidation
+} from './components/validate.js';
+import {
+    selectCardEvent
+} from './components/card.js'
+import {
+    openPopup,
+    closePopup
+} from './components/modal.js'
+import {
+    saveEditProfileHandler,
+    savePlaceHandler
+} from './components/utils.js';
+import {
+    resetFormsInput
+} from './components/utils.js';
+import {
+    fetchSaveAvatar,
+    fetchCards,
+    setProfileContent,
+    config
+} from './components/api.js'
+import {
+    prepareCard
+} from './components/card.js';
 import './pages/index.css';
 
 const page = document.querySelector('.page');
@@ -37,11 +57,21 @@ const enableValidationSettings = {
     button: '.popup__container-btn',
     buttonDisabled: 'popup__container-btn_disabled',
     error: 'popup__container-form-error',
-    errorActive: 'popup__container-form-error_active' 
+    errorActive: 'popup__container-form-error_active'
 }
 
-fetchCards()
-setProfileContent({profileLogo, profileName, profileJob})
+Promise.all([fetchCards('/cards'), setProfileContent('/users/me')])
+    .then(([cards, userData]) => {
+        prepareCard(cards)
+        profileLogo.src = userData.avatar;
+        profileName.textContent = userData.name;
+        profileJob.textContent = userData.about;
+        config.myId = userData._id;
+    })
+    .catch(err => {
+        console.log(`Произошла ошибка, статус - ${err}`)
+    });
+
 enableValidation(enableValidationSettings);
 
 editButton.addEventListener('click', (() => {
@@ -75,4 +105,18 @@ placeForm.addEventListener('submit', ((event) => savePlaceHandler(event, enableV
 avatarForm.addEventListener('submit', (event) => fetchSaveAvatar(event, avatarPopup))
 cardsSection.addEventListener('click', (event) => selectCardEvent(event, enableValidationSettings));
 
-export { cardsSection, cardTemplate, page, imgContent, editPopup, placePopup, profileName, profileJob, inputProfileName, inputProfileJob, imgText, popupPhoto, enableValidationSettings}
+export {
+    cardsSection,
+    cardTemplate,
+    page,
+    imgContent,
+    editPopup,
+    placePopup,
+    profileName,
+    profileJob,
+    inputProfileName,
+    inputProfileJob,
+    imgText,
+    popupPhoto,
+    enableValidationSettings
+}
