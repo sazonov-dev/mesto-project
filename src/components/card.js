@@ -62,13 +62,35 @@ const selectCardEvent = (event, settings) => {
     const cardId = target.closest('.cards__item').dataset.id;
     if (target.id === 'cards__like') {
         if (hasLike(target)) {
-            fetchDeleteLikeCard(cardId, target);
+            const likeCount = target.parentNode.querySelector('.cards__item-info-like-count');
+            fetchDeleteLikeCard(cardId)
+                .then((res) => {
+                    likeCount.textContent = res.likes.length;
+                    target.classList.toggle('cards__item-info-btn_active');
+                })
+                .catch((err) => {
+                    console.log(`Произошла ошибка, статус - ${err}`)
+                })
         } else {
-            fetchLikeCard(cardId, target);
+            const likeCount = target.parentNode.querySelector('.cards__item-info-like-count');
+            fetchLikeCard(cardId)
+                .then((res) => {
+                    likeCount.textContent = res.likes.length;
+                    target.classList.toggle('cards__item-info-btn_active');
+                })
+                .catch((err) => {
+                    console.log(`Произошла ошибка, статус - ${err}`)
+                })
         }
     } else if (target.id === 'cards__trash') {
         fetchDeleteCard(cardId)
-        return cardsSection.removeChild(event.target.parentNode)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(`Произошла ошибка, статус - ${err}`)
+            })
+        return cardsSection.removeChild(target.parentNode)
     } else if (target.classList.contains('cards__item-img')) {
         const photoInfo = {
             src: target.src,

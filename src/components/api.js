@@ -18,12 +18,6 @@ const config = {
     myId: null
 }
 
-const fetchContent = (handler) => {
-    return fetch(config.baseUrl + handler, {
-        headers: config.headers
-    })
-}
-
 const fetchCards = (handler) => {
     return fetch(config.baseUrl + handler, {
         headers: config.headers
@@ -38,7 +32,7 @@ const setProfileContent = (handler) => {
         .then(checkResponse)
 }
 
-const fetchSaveAvatar = (event, form) => {
+const fetchSaveAvatar = (event) => {
     event.preventDefault();
     const avatarUrl = event.target.querySelector('.popup__container-input').value;
     const button = event.target.querySelector('.popup__container-btn');
@@ -51,16 +45,6 @@ const fetchSaveAvatar = (event, form) => {
         })
     })
         .then(checkResponse)
-        .then((res) => {
-            setAvatar(res.avatar)
-            closePopup(form)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-        .finally(() => {
-            toggleButtonText(button, false)
-        })
 }
 
 const fetchUpdateContent = (form, data) => {
@@ -100,48 +84,22 @@ const fetchAddCard = (form, card) => {
         })
     })
     .then(checkResponse)
-    .then((res) => {
-        const card = createCard(res)
-        cardsSection.prepend(card);
-    })
-    .catch((err) => {
-        console.log(`Произошла ошибка, статус - ${err}`)
-    })
-    .finally(() => {
-        toggleButtonText(button, false)
-    })
 }
 
-const fetchLikeCard = (cardId, target) => {
-    let likeCount = target.parentNode.querySelector('.cards__item-info-like-count');
+const fetchLikeCard = (cardId) => {
     return fetch(config.baseUrl + `/cards/likes/${cardId}`, {
         method: 'PUT',
         headers: config.headers,
     })
     .then(checkResponse)
-    .then((res) => {
-        likeCount.textContent = res.likes.length;
-        target.classList.toggle('cards__item-info-btn_active');
-    })
-    .catch((err) => {
-        console.log(`Произошла ошибка, статус - ${err}`)
-    })
 }
 
 const fetchDeleteLikeCard = (cardId, target) => {
-    let likeCount = target.parentNode.querySelector('.cards__item-info-like-count');
     return fetch(config.baseUrl + `/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: config.headers
     })
     .then(checkResponse)
-    .then((res) => {
-        likeCount.textContent = res.likes.length;
-        target.classList.toggle('cards__item-info-btn_active');
-    })
-    .catch((err) => {
-        console.log(`Произошла ошибка, статус - ${err}`)
-    })
 }
 
 const fetchDeleteCard = (cardId) => {
@@ -150,12 +108,6 @@ const fetchDeleteCard = (cardId) => {
         headers: config.headers
     })
     .then(checkResponse)
-    .then((res) => {
-        console.log(res)
-    })
-    .catch((err) => {
-        console.log(`Произошла ошибка, статус - ${err}`)
-    })
 }
 
 export { fetchSaveAvatar, fetchCards, setProfileContent, fetchUpdateContent, fetchAddCard, fetchLikeCard, fetchDeleteLikeCard, fetchDeleteCard, config}

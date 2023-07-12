@@ -1,7 +1,8 @@
-import { editPopup, placePopup, profileJob, profileName, inputProfileJob, inputProfileName, page } from '../index.js';
+import { editPopup, placePopup, profileJob, profileName, inputProfileJob, inputProfileName, page, cardsSection } from '../index.js';
 import { fetchAddCard, fetchUpdateContent,config } from './api.js';
 import { closePopup } from './modal.js';
 import { toggleButtonState } from './validate.js';
+import { createCard } from './card.js';
 
 const saveEditProfileHandler = (event) => {
     event.preventDefault();
@@ -16,6 +17,7 @@ const setAvatar = (url) => {
 const savePlaceHandler = (event, settings) => {
     event.preventDefault();
     const form = event.target;
+    const button = form.querySelector('.popup__container-btn');
     const placeLink = form.elements['imgLink'].value;
     const placeName = form.elements['placeName'].value;
     const item = {
@@ -28,8 +30,18 @@ const savePlaceHandler = (event, settings) => {
     }
 
     fetchAddCard(form, item)
+        .then((res) => {
+            const card = createCard(res)
+            cardsSection.prepend(card);
+            closePopup(placePopup);
+        })
+        .catch((err) => {
+            console.log(`Произошла ошибка, статус - ${err}`)
+        })
+        .finally(() => {
+            toggleButtonText(button, false)
+        })
     resetFormsInput(form, settings);
-    return closePopup(placePopup);
 }
 
 const resetFormsInput = (formElement, settings) => {

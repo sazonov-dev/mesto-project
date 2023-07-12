@@ -10,9 +10,9 @@ import {
 } from './components/modal.js'
 import {
     saveEditProfileHandler,
-    savePlaceHandler
-} from './components/utils.js';
-import {
+    savePlaceHandler,
+    setAvatar,
+    toggleButtonText,
     resetFormsInput
 } from './components/utils.js';
 import {
@@ -62,11 +62,11 @@ const enableValidationSettings = {
 
 Promise.all([fetchCards('/cards'), setProfileContent('/users/me')])
     .then(([cards, userData]) => {
-        prepareCard(cards)
         profileLogo.src = userData.avatar;
         profileName.textContent = userData.name;
         profileJob.textContent = userData.about;
         config.myId = userData._id;
+        prepareCard(cards)
     })
     .catch(err => {
         console.log(`Произошла ошибка, статус - ${err}`)
@@ -102,7 +102,20 @@ popups.forEach((popup) => {
 })
 profileForm.addEventListener('submit', ((event) => saveEditProfileHandler(event)))
 placeForm.addEventListener('submit', ((event) => savePlaceHandler(event, enableValidationSettings)));
-avatarForm.addEventListener('submit', (event) => fetchSaveAvatar(event, avatarPopup))
+avatarForm.addEventListener('submit', (event) => {
+    const button = event.target.querySelector('.popup__container-btn');
+    fetchSaveAvatar(event)
+        .then((res) => {
+            setAvatar(res.avatar)
+            closePopup(avatarPopup)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+        .finally(() => {
+            toggleButtonText(button, false)
+        })
+})
 cardsSection.addEventListener('click', (event) => selectCardEvent(event, enableValidationSettings));
 
 export {
