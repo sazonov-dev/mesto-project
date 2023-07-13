@@ -104,7 +104,9 @@ profileForm.addEventListener('submit', ((event) => saveEditProfileHandler(event)
 placeForm.addEventListener('submit', ((event) => savePlaceHandler(event, enableValidationSettings)));
 avatarForm.addEventListener('submit', (event) => {
     const button = event.target.querySelector('.popup__container-btn');
-    fetchSaveAvatar(event)
+    const avatarUrl = event.target.querySelector('.popup__container-input').value;
+    toggleButtonText(button, true);
+    fetchSaveAvatar(event, avatarUrl)
         .then((res) => {
             setAvatar(res.avatar)
             closePopup(avatarPopup)

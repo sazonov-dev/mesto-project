@@ -85,12 +85,11 @@ const selectCardEvent = (event, settings) => {
     } else if (target.id === 'cards__trash') {
         fetchDeleteCard(cardId)
             .then((res) => {
-                console.log(res)
+                cardsSection.removeChild(target.parentNode)
             })
             .catch((err) => {
                 console.log(`Произошла ошибка, статус - ${err}`)
             })
-        return cardsSection.removeChild(target.parentNode)
     } else if (target.classList.contains('cards__item-img')) {
         const photoInfo = {
             src: target.src,

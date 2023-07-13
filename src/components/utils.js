@@ -7,7 +7,22 @@ import { createCard } from './card.js';
 const saveEditProfileHandler = (event) => {
     event.preventDefault();
 
-    fetchUpdateContent(event.target, {name: inputProfileName.value, about: inputProfileJob.value, profileSelector: profileName, jobSelector: profileJob, popup: editPopup})
+    const form = event.target
+    const button = form.querySelector('.popup__container-btn');
+    toggleButtonText(button, true)
+
+    fetchUpdateContent({name: inputProfileName.value, about: inputProfileJob.value, profileSelector: profileName, jobSelector: profileJob, popup: editPopup})
+        .then((res) => {
+            profileName.textContent = inputProfileName.value;
+            profileJob.textContent = inputProfileJob.value;
+            closePopup(editPopup)
+        })
+        .catch((err) => {
+            console.log(`Произошла ошибка, статус - ${err}`)
+        })
+        .finally(() => {
+            toggleButtonText(button, false)
+        })
 }
 
 const setAvatar = (url) => {
@@ -29,7 +44,8 @@ const savePlaceHandler = (event, settings) => {
         likes: []
     }
 
-    fetchAddCard(form, item)
+    toggleButtonText(button, true)
+    fetchAddCard(item)
         .then((res) => {
             const card = createCard(res)
             cardsSection.prepend(card);

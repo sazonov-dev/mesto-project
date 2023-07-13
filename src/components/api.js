@@ -1,7 +1,3 @@
-import { closePopup } from './modal.js';
-import { setAvatar, toggleButtonText} from './utils.js'
-import { createCard } from './card.js';
-import { cardsSection } from '../index.js'
 import { checkResponse } from '../utils/utils.js'
  
 const authorizationSettings = {
@@ -32,24 +28,19 @@ const setProfileContent = (handler) => {
         .then(checkResponse)
 }
 
-const fetchSaveAvatar = (event) => {
+const fetchSaveAvatar = (event, url) => {
     event.preventDefault();
-    const avatarUrl = event.target.querySelector('.popup__container-input').value;
-    const button = event.target.querySelector('.popup__container-btn');
-    toggleButtonText(button, true)
     return fetch(config.baseUrl + '/users/me/avatar', {
         method: 'PATCH',
         headers: config.headers,
         body: JSON.stringify({
-            avatar: avatarUrl
+            avatar: url
         })
     })
         .then(checkResponse)
 }
 
-const fetchUpdateContent = (form, data) => {
-    const button = form.querySelector('.popup__container-btn');
-    toggleButtonText(button, true)
+const fetchUpdateContent = (data) => {
     return fetch(config.baseUrl + '/users/me', {
         method: 'PATCH',
         headers: config.headers,
@@ -59,22 +50,9 @@ const fetchUpdateContent = (form, data) => {
         })
     })
     .then(checkResponse)
-    .then((res) => {
-        data.profileSelector.textContent = data.name;
-        data.jobSelector.textContent = data.about;
-        closePopup(data.popup)
-    })
-    .catch((err) => {
-        console.log(`Произошла ошибка, статус - ${err}`)
-    })
-    .finally(() => {
-        toggleButtonText(button, false)
-    })
 }
 
-const fetchAddCard = (form, card) => {
-    const button = form.querySelector('.popup__container-btn');
-    toggleButtonText(button, true)
+const fetchAddCard = (card) => {
     return fetch(config.baseUrl + '/cards', {
         method: 'POST',
         headers: config.headers,
@@ -94,7 +72,7 @@ const fetchLikeCard = (cardId) => {
     .then(checkResponse)
 }
 
-const fetchDeleteLikeCard = (cardId, target) => {
+const fetchDeleteLikeCard = (cardId) => {
     return fetch(config.baseUrl + `/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: config.headers
